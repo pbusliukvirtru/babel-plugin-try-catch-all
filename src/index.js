@@ -16,10 +16,9 @@ ${error.name}: ${error.message}
 
 const wrapProgram = template(`
   try {
-    var Analytics = require('analytics');
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
       console.error(e, fn, funName, line, col);
-      Analytics.goTrack(e)
+      Analytics.goTrack(e);
     };
     BODY
   } catch(ERROR_VARIABLE_NAME) {

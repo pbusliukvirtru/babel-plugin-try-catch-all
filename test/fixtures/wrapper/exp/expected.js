@@ -1,4 +1,9 @@
 try {
+  window.errorGlobalHandler = function (e, fn, funName, line, col) {
+    console.error(e, fn, funName, line, col);
+    Analytics.goTrack(e);
+  };
+
   var f = function f() {
     try {
       console.log(arguments);

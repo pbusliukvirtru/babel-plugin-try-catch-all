@@ -15,6 +15,9 @@ ${error.name}: ${error.message}
 */
 
 const wrapProgram = template(`
+  window.errorGlobalHandler = (e, fn, funName, line, col) => {
+    console.error(e, fn, funName, line, col);
+  };
   try {
     BODY
   } catch(ERROR_VARIABLE_NAME) {
@@ -79,7 +82,7 @@ export default {
 
     filename = this.opts.filename || file.opts.filenameRelative;
     if (!filename || filename.toLowerCase() === 'unknown') {
-      throw new Error('babel-plugin-try-catch-wrapper: If babel cannot grab filename, you must pass it in')
+      throw new Error('babel-plugin-try-catch-all: If babel cannot grab filename, you must pass it in')
     }
   },
   visitor: {

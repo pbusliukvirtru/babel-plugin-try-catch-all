@@ -16,7 +16,7 @@ ${error.name}: ${error.message}
 
 const wrapProgram = template(`
   try {
-    var Analytics = require('analytics');
+    var Analytics = require('~/utilities/Analytics/Analytics.js');
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
       console.error(e, fn, funName, line, col);
       Analytics.goTrack(e);

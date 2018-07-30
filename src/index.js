@@ -15,10 +15,10 @@ ${error.name}: ${error.message}
 */
 
 const wrapProgram = template(`
-  window.errorGlobalHandler = function(e, fn, funName, line, col) {
-    console.error(e, fn, funName, line, col);
-  };
   try {
+    window.errorGlobalHandler = function(e, fn, funName, line, col) {
+      console.error(e, fn, funName, line, col);
+    };
     BODY
   } catch(ERROR_VARIABLE_NAME) {
     REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)

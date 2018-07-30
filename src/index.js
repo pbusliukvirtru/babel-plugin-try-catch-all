@@ -15,7 +15,7 @@ ${error.name}: ${error.message}
 */
 
 const wrapProgram = template(`
-  window.errorGlobalHandler = (e, fn, funName, line, col) => {
+  window.errorGlobalHandler = function(e, fn, funName, line, col) {
     console.error(e, fn, funName, line, col);
   };
   try {

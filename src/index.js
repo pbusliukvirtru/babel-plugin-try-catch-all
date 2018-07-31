@@ -17,20 +17,18 @@ ${error.name}: ${error.message}
 const wrapProgram = template(`
   try {
     window.errorGlobalHandler = function(error, context, funName, line, col) {
-      error = error || {};
-      error.name = funName || '';
+      let err = error || {};
+      err.name = funName || '';
     
       var errorConfig = {
-        name: error.name || 'Uncaught global error',
-        message: error.message || '',
+        name: err.name || 'Uncaught global error',
+        message: err.message || '',
         context: context || '',
-        stack: error.stack,
-        error_obj: JSON.stringify(error)
+        stack: err.stack || '',
+        error_obj: JSON.stringify(err) || ''
       };
-    
-      console.error(errorConfig);
      
-      goTrackError(error);
+      goTrackError(errorConfig);
     };
     BODY
   } catch(ERROR_VARIABLE_NAME) {

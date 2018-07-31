@@ -16,10 +16,6 @@ ${error.name}: ${error.message}
 
 const wrapProgram = template(`
   try {
-    var driveUISelectors = require('virtru-drive-ui-selectors');
-    
-    driveUISelectors.refreshSelectors();
-    
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
       console.error(e, fn, funName, line, col);
       goTrackError(e);
@@ -34,11 +30,9 @@ const wrapFunction = template(`{
   try {
     BODY
   } catch(ERROR_VARIABLE_NAME) {
-    if (!ERROR_VARIABLE_NAME.isReported) {
-      REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN);
-      ERROR_VARIABLE_NAME.isReported = true;
-      throw ERROR_VARIABLE_NAME
-    }
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN);
+    ERROR_VARIABLE_NAME.isReported = true;
+    throw ERROR_VARIABLE_NAME
   }
 }`);
 

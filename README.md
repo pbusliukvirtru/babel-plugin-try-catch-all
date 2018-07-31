@@ -1,3 +1,7 @@
+Purpose of this module:
+For global catch uncaught errors due to use virtru google drive extension 
+and sending all errors to analytics service
+
 Usage for webpack plugin:
 
 

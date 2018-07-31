@@ -1,7 +1,7 @@
 {
   "name": "babel-plugin-try-catch-all",
-  "version": "0.2.2",
-  "description": "wrap all code in try-catch for reporting js runtime error",
+  "version": "1.0.0",
+  "description": "Wrap all code in try-catch for reporting js runtime error",
   "main": "lib/index.js",
   "files": [
     "lib/"
@@ -11,7 +11,7 @@
     "prepublish": "babel src -d lib",
     "dev": "babel src -d lib -w"
   },
-  "author": "jacksky007 <jacksky007@qq.com>",
+  "author": "Petr Buslyuk",
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.4.5",
@@ -30,10 +30,6 @@
   },
   "directories": {
     "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jacksky007/report-error/tree/master/babel-plugin-try-catch-wrapper"
   },
   "keywords": [
     "report error",

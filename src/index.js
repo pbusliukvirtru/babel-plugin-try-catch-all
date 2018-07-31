@@ -17,13 +17,12 @@ ${error.name}: ${error.message}
 const wrapProgram = template(`
   try {
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
-      debugger;
-      console.error(e, fn, funName, line, col);
       goTrackError(e);
     };
     BODY
   } catch(ERROR_VARIABLE_NAME) {
-    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN)
+    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN);
+    throw ERROR_VARIABLE_NAME
   }
 `);
 
@@ -32,7 +31,6 @@ const wrapFunction = template(`{
     BODY
   } catch(ERROR_VARIABLE_NAME) {
     REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN);
-    ERROR_VARIABLE_NAME.isReported = true;
     throw ERROR_VARIABLE_NAME
   }
 }`);

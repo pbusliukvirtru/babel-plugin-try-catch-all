@@ -1,7 +1,7 @@
 try {
   window.errorGlobalHandler = function (e, fn, funName, line, col) {
     console.error(e, fn, funName, line, col);
-    Analytics.goTrack(e);
+    goTrackError(e);
   };
 
   function f() {

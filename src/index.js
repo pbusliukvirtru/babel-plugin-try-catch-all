@@ -18,7 +18,7 @@ const wrapProgram = template(`
   try {
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
       console.error(e, fn, funName, line, col);
-      Analytics.goTrack(e);
+      goTrackError(e);
     };
     BODY
   } catch(ERROR_VARIABLE_NAME) {

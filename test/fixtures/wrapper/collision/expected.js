@@ -1,7 +1,7 @@
 try {
 	window.errorGlobalHandler = function (e, fn, funName, line, col) {
 		console.error(e, fn, funName, line, col);
-		Analytics.goTrack(e);
+		goTrackError(e);
 	};
 
 	var _e = '_e cannnot be used in catch clause';

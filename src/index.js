@@ -17,6 +17,7 @@ ${error.name}: ${error.message}
 const wrapProgram = template(`
   try {
     window.errorGlobalHandler = function(e, fn, funName, line, col) {
+      debugger;
       console.error(e, fn, funName, line, col);
       goTrackError(e);
     };

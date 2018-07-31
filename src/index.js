@@ -17,10 +17,10 @@ ${error.name}: ${error.message}
 const wrapProgram = template(`
   try {
     window.errorGlobalHandler = function(error, context, funName, line, col) {
-      let err = error || {};
+      const err = error || {};
       err.name = funName || '';
     
-      var errorConfig = {
+      const errorConfig = {
         name: err.name || 'Uncaught global error',
         message: err.message || '',
         context: context || '',

@@ -16,19 +16,8 @@ ${error.name}: ${error.message}
 
 const wrapProgram = template(`
   try {
-    window.errorGlobalHandler = function(error, context, funName, line, col) {
-      var err = error || {};
-      err.name = funName || '';
-    
-      var errorConf = {
-        name: err.name || 'Uncaught global error',
-        message: err.message || '',
-        context: context || '',
-        stack: err.stack || '',
-        error_obj: JSON.stringify(err) || ''
-      };
-     
-      goTrackError(errorConf);
+    window.errorGlobalHandler = function(error, context, functionName, line, col) {
+      goTrackError(error, context, functionName);
     };
     BODY
   } catch(ERROR_VARIABLE_NAME) {

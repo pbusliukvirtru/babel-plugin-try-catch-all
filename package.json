@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-try-catch-all",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wrap all code in try-catch for reporting js runtime error",
   "main": "lib/index.js",
   "files": [

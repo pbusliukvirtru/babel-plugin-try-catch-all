@@ -1,7 +1,6 @@
 try {
-	window.errorGlobalHandler = function (e, fn, funName, line, col) {
-		console.error(e, fn, funName, line, col);
-		goTrackError(e);
+	window.errorGlobalHandler = function (error, context, functionName, line, col) {
+		goTrackError(error, context, functionName);
 	};
 
 	var _e = '_e cannnot be used in catch clause';
@@ -25,4 +24,5 @@ try {
 	}
 } catch (_e5) {
 	reportError(_e5, 'wrapper/collision/expected.js', 'top-level code', 1, 0);
+	throw _e5;
 }

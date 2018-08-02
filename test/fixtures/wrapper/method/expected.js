@@ -1,7 +1,6 @@
 try {
-  window.errorGlobalHandler = function (e, fn, funName, line, col) {
-    console.error(e, fn, funName, line, col);
-    goTrackError(e);
+  window.errorGlobalHandler = function (error, context, functionName, line, col) {
+    goTrackError(error, context, functionName);
   };
 
   var obj = {
@@ -19,4 +18,5 @@ try {
   };
 } catch (_e2) {
   reportError(_e2, "wrapper/method/expected.js", "top-level code", 1, 0);
+  throw _e2;
 }

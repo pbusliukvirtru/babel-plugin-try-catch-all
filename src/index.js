@@ -15,15 +15,10 @@ ${error.name}: ${error.message}
 */
 
 const wrapProgram = template(`
-  try {
-    window.errorGlobalHandler = function(error, context, functionName, line, col) {
+  window.errorGlobalHandler = function(error, context, functionName, line, col) {
       goTrackError(error, context, functionName);
     };
-    BODY
-  } catch(ERROR_VARIABLE_NAME) {
-    REPORT_ERROR(ERROR_VARIABLE_NAME, FILENAME, FUNCTION_NAME, LINE, COLUMN);
-    throw ERROR_VARIABLE_NAME
-  }
+  BODY
 `);
 
 const wrapFunction = template(`{
@@ -111,7 +106,7 @@ export default {
           REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
         });
-        path.replaceWith(t.Program([programBody]))
+        path.replaceWith(t.Program(programBody))
       }
     },
     Function: {

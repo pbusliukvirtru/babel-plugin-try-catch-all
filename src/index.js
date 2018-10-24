@@ -16,8 +16,18 @@ ${error.name}: ${error.message}
 
 const wrapProgram = template(`
   window.errorGlobalHandler = function(error, context, functionName, line, col) {
-      goTrackError(error, context, functionName);
-    };
+      window.top.postMessage({
+        type: 'driveUnhandledError',
+        messageType: 'trackAnalytic',
+        options: {
+          error: error,
+          context: context,
+          functionName: functionName,
+          line: line,
+          col: col
+        }
+      }, '*');
+  };
   BODY
 `);
 

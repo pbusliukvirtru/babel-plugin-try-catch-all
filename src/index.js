@@ -22,7 +22,7 @@ const wrapProgram = template(`
     sentInterval: 500
   };
   window.errorGlobalHandler = function(error, context, functionName, line, col) {
-    var newError = {
+    const newError = {
         error: JSON.stringify(error),
         context: context,
         functionName: functionName,
@@ -31,7 +31,7 @@ const wrapProgram = template(`
     };
     
     function isErrorAlreadyPresent() {
-      return window.errorGlobalHandlerOpts.errors.filter(function(existingError) {
+      return errorGlobalHandlerOpts.errors.filter(function(existingError) {
         return existingError.error === newError.error;
       }).length;
     }
@@ -40,23 +40,23 @@ const wrapProgram = template(`
         return;
     }
   
-    window.errorGlobalHandlerOpts.errors.push(newError);
+    errorGlobalHandlerOpts.errors.push(newError);
     
-    if (window.errorGlobalHandlerOpts.timeout) {
+    if (errorGlobalHandlerOpts.timeout) {
       clearTimeout(window.errorGlobalHandlerOpts.timeout);
     }
     
-    window.errorGlobalHandlerOpts.timeout = setTimeout(function(){ 
-        window.errorGlobalHandlerOpts.errors.forEach(function(existingError) {
+    errorGlobalHandlerOpts.timeout = setTimeout(function(){ 
+        errorGlobalHandlerOpts.errors.forEach(function(existingError) {
           window.top.postMessage({
             type: 'driveUnhandledError',
             messageType: 'trackAnalytic',
             options: existingError
           }, '*');
         });
-        window.errorGlobalHandlerOpts.errors = [];
-        window.errorGlobalHandlerOpts.timeout = null;
-    }, window.errorGlobalHandlerOpts.sentInterval);
+        errorGlobalHandlerOpts.errors = [];
+        errorGlobalHandlerOpts.timeout = null;
+    }, errorGlobalHandlerOpts.sentInterval);
   };
 `);
 

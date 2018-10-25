@@ -15,20 +15,49 @@ ${error.name}: ${error.message}
 */
 
 const wrapProgram = template(`
-  window.errorGlobalHandler = function(error, context, functionName, line, col) {
-      window.top.postMessage({
-        type: 'driveUnhandledError',
-        messageType: 'trackAnalytic',
-        options: {
-          error: error,
-          context: context,
-          functionName: functionName,
-          line: line,
-          col: col
-        }
-      }, '*');
-  };
   BODY
+  window.errorGlobalHandlerOpts = {
+    timeout: null,
+    errors: [],
+    sentInterval: 500
+  };
+  window.errorGlobalHandler = function(error, context, functionName, line, col) {
+    var newError = {
+        error: JSON.stringify(error),
+        context: context,
+        functionName: functionName,
+        line: line,
+        col: col
+    };
+    
+    function isErrorAlreadyPresent() {
+      return window.errorGlobalHandlerOpts.errors.filter(function(existingError) {
+        return existingError.error === newError.error;
+      }).length;
+    }
+    
+    if (isErrorAlreadyPresent()) {
+        return;
+    }
+  
+    window.errorGlobalHandlerOpts.errors.push(newError);
+    
+    if (window.errorGlobalHandlerOpts.timeout) {
+      clearTimeout(window.errorGlobalHandlerOpts.timeout);
+    }
+    
+    window.errorGlobalHandlerOpts.timeout = setTimeout(function(){ 
+        window.errorGlobalHandlerOpts.errors.forEach(function(existingError) {
+          window.top.postMessage({
+            type: 'driveUnhandledError',
+            messageType: 'trackAnalytic',
+            options: existingError
+          }, '*');
+        });
+        window.errorGlobalHandlerOpts.errors = [];
+        window.errorGlobalHandlerOpts.timeout = null;
+    }, window.errorGlobalHandlerOpts.sentInterval);
+  };
 `);
 
 const wrapFunction = template(`{
@@ -126,7 +155,7 @@ export default {
         }
 
         // ignore empty function body
-        const body = path.node.body.body;
+        const body = path.node.body;
         if (body.length === 0) {
           return
         }

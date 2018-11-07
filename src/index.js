@@ -23,11 +23,12 @@ const wrapProgram = template(`
   };
   window.errorGlobalHandler = function(error, context, functionName, line, col) {
     const newError = {
-        error: JSON.stringify(error),
-        context: context,
-        functionName: functionName,
-        line: line,
-        col: col
+      error: JSON.stringify(error),
+      context: context,
+      functionName: functionName,
+      line: line,
+      col: col,
+      projectName: PROJECT_NAME
     };
     
     function isErrorAlreadyPresent() {
@@ -37,7 +38,7 @@ const wrapProgram = template(`
     }
     
     if (isErrorAlreadyPresent()) {
-        return;
+      return;
     }
   
     errorGlobalHandlerOpts.errors.push(newError);
@@ -47,15 +48,15 @@ const wrapProgram = template(`
     }
     
     errorGlobalHandlerOpts.timeout = setTimeout(function(){ 
-        errorGlobalHandlerOpts.errors.forEach(function(existingError) {
-          window.top.postMessage({
-            type: 'driveUnhandledError',
-            messageType: 'trackAnalytic',
-            options: existingError
-          }, '*');
-        });
-        errorGlobalHandlerOpts.errors = [];
-        errorGlobalHandlerOpts.timeout = null;
+      errorGlobalHandlerOpts.errors.forEach(function(existingError) {
+        window.top.postMessage({
+          type: 'driveUnhandledError',
+          messageType: 'trackAnalytic',
+          options: existingError
+        }, '*');
+      });
+      errorGlobalHandlerOpts.errors = [];
+      errorGlobalHandlerOpts.timeout = null;
     }, errorGlobalHandlerOpts.sentInterval);
   };
 `);
@@ -114,8 +115,8 @@ export {version} from '../package.json'
 export default {
   pre(file) {
     ({ reportError = 'reportError' } = this.opts);
-
-    filename = this.opts.filename || file.opts.filenameRelative;
+    this.projectName = this.opts.projectName || 'unknown';
+    filename = file.opts.sourceFileName || file.opts.filenameRelative; //
     if (!filename || filename.toLowerCase() === 'unknown') {
       throw new Error('babel-plugin-try-catch-all: If babel cannot grab filename, you must pass it in')
     }
@@ -144,6 +145,7 @@ export default {
           COLUMN: t.NumericLiteral(loc.start.column),
           REPORT_ERROR: t.identifier(reportError),
           ERROR_VARIABLE_NAME: errorVariableName,
+          PROJECT_NAME: t.StringLiteral(this.projectName)
         });
         path.replaceWith(t.Program(programBody))
       }

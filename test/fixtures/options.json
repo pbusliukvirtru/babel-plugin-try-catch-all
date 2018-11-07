@@ -1,7 +1,8 @@
 {
   "plugins": [
     ["try-catch-wrapper", {
-      "reportError": "reportError"
+      "reportError": "reportError",
+      "projectName": "drive-extension"
     }]
   ]
 }
